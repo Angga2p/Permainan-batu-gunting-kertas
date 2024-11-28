@@ -1,0 +1,119 @@
+<!doctype html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Permainan Gunting Batu Kertas</title>
+  <link rel="stylesheet" href="styles.css">
+<style type="text/css" id="dcoder_stylesheet">body {
+  font-family: Arial, sans-serif;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  margin: 0;
+  background-color: #f4f4f9;
+}
+
+.container {
+  text-align: center;
+}
+
+h1 {
+  color: #2c3e50;
+}
+
+.choices button {
+  font-size: 20px;
+  margin: 10px;
+  padding: 15px 30px;
+  cursor: pointer;
+  background-color: #3498db;
+  border: none;
+  color: white;
+  border-radius: 5px;
+}
+
+.choices button:hover {
+  background-color: #2980b9;
+}
+
+.result {
+  margin-top: 20px;
+}
+
+.score {
+  margin-top: 20px;
+  font-size: 18px;
+}
+
+#resultText {
+  font-weight: bold;
+  color: #e74c3c;
+}
+</style></head>
+<body>
+  <div class="container">
+    <h1>Permainan Gunting Batu Kertas</h1>
+    <div class="choices">
+      <button id="rock">Batu</button>
+      <button id="scissors">Gunting</button>
+      <button id="paper">Kertas</button>
+    </div>
+    <div class="result">
+      <h2>Hasil: <span id="resultText">Pilih pilihanmu!</span></h2>
+    </div>
+    <div class="score">
+      <p>Pemain: <span id="playerScore">0</span></p>
+      <p>Komputer: <span id="computerScore">0</span></p>
+    </div>
+  </div>
+  <script src="script.js"></script>
+
+<script type="text/javascript" id="dcoder_script">let playerScore = 0;
+let computerScore = 0;
+
+const choices = ['rock', 'scissors', 'paper'];
+const resultText = document.getElementById('resultText');
+const playerScoreElement = document.getElementById('playerScore');
+const computerScoreElement = document.getElementById('computerScore');
+
+document.getElementById('rock').addEventListener('click', () => playGame('rock'));
+document.getElementById('scissors').addEventListener('click', () => playGame('scissors'));
+document.getElementById('paper').addEventListener('click', () => playGame('paper'));
+
+function playGame(playerChoice) {
+  const computerChoice = choices[Math.floor(Math.random() * choices.length)];
+  const result = getResult(playerChoice, computerChoice);
+  resultText.textContent = result.message;
+  
+  if (result.winner === 'player') {
+    playerScore++;
+  } else if (result.winner === 'computer') {
+    computerScore++;
+  }
+
+  updateScore();
+}
+
+function getResult(playerChoice, computerChoice) {
+  if (playerChoice === computerChoice) {
+    return { winner: 'draw', message: `Seri! Kamu dan komputer memilih ${playerChoice}` };
+  }
+
+  if (
+    (playerChoice === 'rock' && computerChoice === 'scissors') ||
+    (playerChoice === 'scissors' && computerChoice === 'paper') ||
+    (playerChoice === 'paper' && computerChoice === 'rock')
+  ) {
+    return { winner: 'player', message: `Kamu menang! ${playerChoice} mengalahkan ${computerChoice}` };
+  } else {
+    return { winner: 'computer', message: `Komputer menang! ${computerChoice} mengalahkan ${playerChoice}` };
+  }
+}
+
+function updateScore() {
+  playerScoreElement.textContent = playerScore;
+  computerScoreElement.textContent = computerScore;
+}
+</script></body></html>
